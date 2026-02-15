@@ -27,7 +27,7 @@ public class MenuHelper {
             buttons.add(makeButton("Day " + (i + 1), Material.NETHER_STAR, lore));
         }
 
-        List<String> weeklyLore = List.of("Daily rewards are increased %" + weeklyMultiplier + "for every consecutive week",
+        List<String> weeklyLore = List.of("Daily rewards are increased %" + weeklyMultiplier + " for every consecutive week",
                                     "Consecutive weeks: " + weeks);
         ItemStack weeklyMultiplierIndicator = makeButton("Weekly Multiplier: " + ((float) 1 + (float) weeklyMultiplier / 100), Material.EMERALD, weeklyLore);
         buttons.add(weeklyMultiplierIndicator);
@@ -37,6 +37,8 @@ public class MenuHelper {
         for (ItemStack button : buttons){
             menu.addItem(button);
         }
+
+        player.openInventory(menu);
     }
 
     public static ItemStack makeButton(String label, Material material){
@@ -55,5 +57,9 @@ public class MenuHelper {
         button.setItemMeta(meta);
 
         return button;
+    }
+
+    public static void quitMenu(Player player){
+        player.closeInventory();
     }
 }

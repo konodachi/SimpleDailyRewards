@@ -1,9 +1,8 @@
 package me.konodachi.simpleDailyRewards;
 
 import me.konodachi.simpleDailyRewards.commands.ShowMenuCommand;
+import me.konodachi.simpleDailyRewards.listeners.InventoryClickListener;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import javax.swing.event.MenuListener;
 
 public final class SimpleDailyRewards extends JavaPlugin {
 
@@ -11,6 +10,7 @@ public final class SimpleDailyRewards extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getCommand("daily").setExecutor(new ShowMenuCommand());
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
     }
 
     @Override

@@ -8,9 +8,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class DatabaseHelper {
-    private static Map<UUID, LoginData> data;
+    private static ConcurrentMap<UUID, LoginData> data;
     private static String path;
 
     private DatabaseHelper(){}
@@ -33,7 +35,7 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
 
-        data = new HashMap<>();
+        data = new ConcurrentHashMap<>();
     }
 
     public static void fetchLoginData(UUID playerID){

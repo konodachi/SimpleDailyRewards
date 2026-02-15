@@ -1,0 +1,7 @@
+name: SimpleDailyRewards
+version: '0.0.1-alpha'
+main: me.konodachi.simpleDailyRewards.SimpleDailyRewards
+api-version: '1.21'
+commands:
+  daily:
+    description: Open the Daily Rewards Menu

@@ -1,5 +1,6 @@
 package me.konodachi.simpleDailyRewards.listeners;
 
+import me.konodachi.simpleDailyRewards.DatabaseHelper;
 import me.konodachi.simpleDailyRewards.MenuHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,5 +19,10 @@ public class InventoryClickListener implements Listener {
 
         if (buttonType == Material.RED_WOOL) MenuHelper.quitMenu(player);
 
+        if (buttonType == Material.NETHER_STAR){
+            if (buttonLabel.equals("Day " + DatabaseHelper.getData(player.getUniqueId()).getDays())){
+                System.out.println("Reward Triggered!");
+            }
+        }
     }
 }

@@ -23,7 +23,11 @@ public class MenuHelper {
 
         for (int i = 0; i < 7; i++){
             List<String> lore = new ArrayList<>();
-            lore.add("Click to claim rewards for day " + (i + 1));
+
+            if (i <= days && !alreadyClaimed) lore.add("This reward has already been claimed.");
+            else if (i == days) lore.add("Click to claim rewards for today");
+            else lore.add("Reward not available yet.");
+
             buttons.add(makeButton("Day " + (i + 1), Material.NETHER_STAR, lore));
         }
 

@@ -6,7 +6,7 @@
 
     <groupId>me.konodachi</groupId>
     <artifactId>SimpleDailyRewards</artifactId>
-    <version>0.0.1-alpha</version>
+    <version>0.0.2-alpha</version>
     <packaging>jar</packaging>
 
     <name>SimpleDailyRewards</name>
@@ -63,6 +63,11 @@
             <artifactId>spigot-api</artifactId>
             <version>1.21.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.46.0.1</version>
         </dependency>
     </dependencies>
 </project>

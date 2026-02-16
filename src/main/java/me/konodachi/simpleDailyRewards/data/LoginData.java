@@ -10,7 +10,7 @@ public class LoginData {
     private int days;
     private int weeks;
     private boolean alreadyClaimed;
-    private @Nullable LocalDate lastClaim;
+    private LocalDate lastClaim;
 
     public LoginData(UUID playerID){
         this.playerID = playerID;

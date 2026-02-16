@@ -74,7 +74,7 @@ public class DatabaseHelper {
             preparedStatement.setInt(3, loginData.getWeeks());
             preparedStatement.setBoolean(4, loginData.alreadyClaimed());
             if (loginData.getLastClaim() != null) preparedStatement.setDate(5, java.sql.Date.valueOf(loginData.getLastClaim()));
-            else preparedStatement.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
+            else preparedStatement.setDate(5, java.sql.Date.valueOf(LocalDate.now().minusDays(1)));
 
             preparedStatement.executeUpdate();
             dumpPlayerData(loginData.getPlayerID());

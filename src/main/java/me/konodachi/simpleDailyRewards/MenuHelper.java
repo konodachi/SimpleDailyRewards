@@ -35,7 +35,6 @@ public class MenuHelper {
 
             if (i < days) lore.add("This reward has already been claimed.");
             else if (i == days && !alreadyClaimed) lore.add("Click to claim rewards for today");
-            else if (i == days) lore.add("This reward has already been claimed.");
             else lore.add("Reward not available yet.");
 
             buttons.add(makeButton("Day " + (i), Material.NETHER_STAR, lore));

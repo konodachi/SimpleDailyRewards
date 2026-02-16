@@ -24,6 +24,10 @@ public class DatabaseHelper {
 
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
             Statement statement = connection.createStatement()){
+
+            statement.execute("PRAGMA journal_mode=WAL;");
+            statement.execute("PRAGMA busy_timeout=3000;");
+
             statement.execute("CREATE TABLE IF NOT EXISTS player_data (" +
                     "uuid TEXT PRIMARY KEY, " +
                     "days INTEGER, " +

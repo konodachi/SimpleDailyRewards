@@ -1,5 +1,7 @@
 package me.konodachi.simpleDailyRewards.data;
 
+import org.jspecify.annotations.Nullable;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -8,14 +10,14 @@ public class LoginData {
     private int days;
     private int weeks;
     private boolean alreadyClaimed;
-    private LocalDate lastClaim;
+    private @Nullable LocalDate lastClaim;
 
     public LoginData(UUID playerID){
         this.playerID = playerID;
-        this.days = 0;
+        this.days = 1;
         this.weeks = 0;
         this.alreadyClaimed = false;
-        this.lastClaim = LocalDate.now();
+        this.lastClaim = LocalDate.now().minusDays(1);
     }
 
     public LoginData(UUID playerID, int days, int weeks, boolean alreadyClaimed, LocalDate lastClaim) {

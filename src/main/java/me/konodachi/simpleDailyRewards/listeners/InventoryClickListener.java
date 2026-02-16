@@ -57,6 +57,9 @@ public class InventoryClickListener implements Listener {
         if (player == null) return;
 
         for (ItemStack reward : rewards) {
+            if (player.getInventory().firstEmpty() == -1){
+                player.getWorld().dropItemNaturally(player.getLocation(), reward);
+            }
             player.getInventory().addItem(reward);
         }
 

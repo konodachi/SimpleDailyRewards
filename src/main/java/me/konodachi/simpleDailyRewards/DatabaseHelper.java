@@ -49,8 +49,10 @@ public class DatabaseHelper {
                 int days = resultSet.getInt("days");
                 int weeks = resultSet.getInt("weeks");
                 boolean already_claimed = resultSet.getBoolean("already_claimed");
-                LocalDate lastClaim = resultSet.getDate("last_claim").toLocalDate();
+                Date sqlDate = resultSet.getDate("last_claim");
+                LocalDate lastClaim = (sqlDate != null) ? sqlDate.toLocalDate() : LocalDate.now().minusDays(1);
                 LoginData loginData = new LoginData(playerID, days, weeks, already_claimed, lastClaim);
+
                 data.put(playerID, loginData);
             }
         } catch (SQLException e){
@@ -60,6 +62,7 @@ public class DatabaseHelper {
 
     public static void updateLoginData(UUID playerID){
         if (!data.containsKey(playerID)) return;
+        LoginData loginData = data.get(playerID);
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_data (uuid, days, weeks, already_claimed, last_claim) " +
                     "VALUES (?, ?, ?, ?, ?) " +
@@ -69,10 +72,10 @@ public class DatabaseHelper {
                     "already_claimed = excluded.already_claimed, " +
                     "last_claim = excluded.last_claim")){
             preparedStatement.setString(1, playerID.toString());
-            preparedStatement.setInt(2, data.get(playerID).getDays());
-            preparedStatement.setInt(3, data.get(playerID).getWeeks());
-            preparedStatement.setBoolean(4, data.get(playerID).alreadyClaimed());
-            if (data.get(playerID).getLastClaim() != null) preparedStatement.setDate(5, java.sql.Date.valueOf(data.get(playerID).getLastClaim()));
+            preparedStatement.setInt(2, loginData.getDays());
+            preparedStatement.setInt(3, loginData.getWeeks());
+            preparedStatement.setBoolean(4, loginData.alreadyClaimed());
+            if (loginData.getLastClaim() != null) preparedStatement.setDate(5, java.sql.Date.valueOf(loginData.getLastClaim()));
             else preparedStatement.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
 
             preparedStatement.executeUpdate();

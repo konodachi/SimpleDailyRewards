@@ -31,6 +31,7 @@ public class InventoryClickListener implements Listener {
         ItemStack currentItem = event.getCurrentItem();
         if (currentItem == null) return;
         if (currentItem.getItemMeta() == null) return;
+        if (currentItem.getItemMeta().getLore() == null) return;
         String buttonLabel = currentItem.getItemMeta().getDisplayName();
         List<String> buttonLore = currentItem.getItemMeta().getLore();
         Material buttonType = currentItem.getType();

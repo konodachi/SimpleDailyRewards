@@ -1,7 +1,9 @@
 name: SimpleDailyRewards
-version: '0.0.2-alpha'
+version: '0.0.3-alpha'
 main: me.konodachi.simpleDailyRewards.SimpleDailyRewards
 api-version: '1.21'
 commands:
   daily:
     description: Open the Daily Rewards Menu
+  reloadConfig:
+    description: Reload the config for this plugin

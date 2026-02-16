@@ -1,5 +1,6 @@
 package me.konodachi.simpleDailyRewards;
 
+import me.konodachi.simpleDailyRewards.commands.ReloadConfig;
 import me.konodachi.simpleDailyRewards.commands.ShowMenuCommand;
 import me.konodachi.simpleDailyRewards.listeners.InventoryClickListener;
 import me.konodachi.simpleDailyRewards.listeners.PlayerJoinListener;
@@ -26,6 +27,7 @@ public final class SimpleDailyRewards extends JavaPlugin {
         loadLoot();
 
         getCommand("daily").setExecutor(new ShowMenuCommand());
+        getCommand("reloadConfig").setExecutor(new ReloadConfig(this));
 
         getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);

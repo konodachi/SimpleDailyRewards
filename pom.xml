@@ -6,7 +6,7 @@
 
     <groupId>me.konodachi</groupId>
     <artifactId>SimpleDailyRewards</artifactId>
-    <version>0.0.2-alpha</version>
+    <version>0.0.3-alpha</version>
     <packaging>jar</packaging>
 
     <name>SimpleDailyRewards</name>

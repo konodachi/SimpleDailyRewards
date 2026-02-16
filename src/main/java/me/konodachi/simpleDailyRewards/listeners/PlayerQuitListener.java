@@ -2,6 +2,7 @@ package me.konodachi.simpleDailyRewards.listeners;
 
 import me.konodachi.simpleDailyRewards.DatabaseHelper;
 import me.konodachi.simpleDailyRewards.SimpleDailyRewards;
+import me.konodachi.simpleDailyRewards.data.LoginData;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,9 +20,10 @@ public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         UUID playerID = event.getPlayer().getUniqueId();
-        if (DatabaseHelper.getData(playerID) == null) return;
+        LoginData loginData = DatabaseHelper.dumpPlayerData(playerID);
+        if (loginData == null) return;
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            DatabaseHelper.updateLoginData(playerID);
+            DatabaseHelper.updateLoginData(loginData);
         });
     }
 

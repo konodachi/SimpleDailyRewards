@@ -60,9 +60,8 @@ public class DatabaseHelper {
         }
     }
 
-    public static void updateLoginData(UUID playerID){
-        if (!data.containsKey(playerID)) return;
-        LoginData loginData = data.get(playerID);
+    public static void updateLoginData(LoginData loginData){
+        if (!data.containsKey(loginData.getPlayerID())) return;
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_data (uuid, days, weeks, already_claimed, last_claim) " +
                     "VALUES (?, ?, ?, ?, ?) " +
@@ -71,7 +70,7 @@ public class DatabaseHelper {
                     "weeks = excluded.weeks, " +
                     "already_claimed = excluded.already_claimed, " +
                     "last_claim = excluded.last_claim")){
-            preparedStatement.setString(1, playerID.toString());
+            preparedStatement.setString(1, loginData.getPlayerID().toString());
             preparedStatement.setInt(2, loginData.getDays());
             preparedStatement.setInt(3, loginData.getWeeks());
             preparedStatement.setBoolean(4, loginData.alreadyClaimed());
@@ -79,14 +78,14 @@ public class DatabaseHelper {
             else preparedStatement.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
 
             preparedStatement.executeUpdate();
-            dumpPlayerData(playerID);
+            dumpPlayerData(loginData.getPlayerID());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void dumpPlayerData(UUID playerID){
-        data.remove(playerID);
+    public static @Nullable LoginData dumpPlayerData(UUID playerID){
+        return data.containsKey(playerID) ? data.remove(playerID) : null;
     }
 
     public static @Nullable LoginData getData(UUID playerID){

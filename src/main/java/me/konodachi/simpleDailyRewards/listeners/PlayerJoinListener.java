@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
@@ -19,17 +20,20 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        UUID playerId = event.getPlayer().getUniqueId();
+        UUID playerID = event.getPlayer().getUniqueId();
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->{
-            DatabaseHelper.fetchLoginData(playerId);
+            DatabaseHelper.fetchLoginData(playerID);
             Bukkit.getScheduler().runTask(plugin, () -> {
-                if (plugin.getServer().getPlayer(playerId) == null) {
-                    DatabaseHelper.dumpPlayerData(playerId);
+                if (plugin.getServer().getPlayer(playerID) == null) {
+                    DatabaseHelper.dumpPlayerData(playerID);
                     return;
                 }
-                LoginData data = DatabaseHelper.getData(playerId);
-                if (data.alreadyClaimed()) return;
-                else event.getPlayer().sendMessage("Don't forget to claim your daily reward with /daily");
+                LoginData data = DatabaseHelper.getData(playerID);
+                if (data == null) return;
+                if (data.getLastClaim().isBefore(LocalDate.now().minusDays(1))) {
+                    DatabaseHelper.resetStreak(playerID);
+                }
+                if (!data.alreadyClaimed()) event.getPlayer().sendMessage("Don't forget to claim your daily reward with /daily");
             });
         });
     }

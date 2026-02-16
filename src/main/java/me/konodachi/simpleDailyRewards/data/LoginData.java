@@ -41,6 +41,10 @@ public class LoginData {
 
     public void setDays(int days) {
         this.days = days;
+        if (this.days < 7) return;
+
+        this.days = 0;
+        this.weeks++;
     }
 
     public int getWeeks() {

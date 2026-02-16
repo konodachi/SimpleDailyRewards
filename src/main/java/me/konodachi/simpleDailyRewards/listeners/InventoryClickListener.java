@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,15 +44,14 @@ public class InventoryClickListener implements Listener {
 
         if (!buttonLore.getFirst().equalsIgnoreCase("Click to claim rewards for today")) return;
 
-        giveRewards(player.getUniqueId());
+        giveRewards(player.getUniqueId(), buttonLabel);
     }
 
-    public void giveRewards(UUID uuid){
+    public void giveRewards(UUID uuid, String buttonLabel){
         LoginData loginData = DatabaseHelper.getData(uuid);
         if (loginData == null) {plugin.getLogger().severe("Check database integrity!");return;}
-        String day = String.format("Day %d", loginData.getDays() + 1);
 
-        List<ItemStack> rewards = plugin.getLoot().get(day);
+        List<ItemStack> rewards = plugin.getLoot().get(buttonLabel);
 
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) return;
@@ -60,5 +59,10 @@ public class InventoryClickListener implements Listener {
         for (ItemStack reward : rewards) {
             player.getInventory().addItem(reward);
         }
+
+        loginData.setDays(loginData.getDays() + 1);
+        loginData.setLastClaim(LocalDate.now());
+        loginData.setAlreadyClaimed(true);
     }
+
 }

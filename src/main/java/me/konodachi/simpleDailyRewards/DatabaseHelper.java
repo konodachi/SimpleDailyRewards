@@ -73,7 +73,7 @@ public class DatabaseHelper {
             preparedStatement.setInt(3, data.get(playerID).getWeeks());
             preparedStatement.setBoolean(4, data.get(playerID).alreadyClaimed());
             if (data.get(playerID).getLastClaim() != null) preparedStatement.setDate(5, java.sql.Date.valueOf(data.get(playerID).getLastClaim()));
-            else preparedStatement.setTimestamp(5, null);
+            else preparedStatement.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
 
             preparedStatement.executeUpdate();
             dumpPlayerData(playerID);
@@ -88,5 +88,14 @@ public class DatabaseHelper {
 
     public static @Nullable LoginData getData(UUID playerID){
         return data.getOrDefault(playerID, null);
+    }
+
+    public static void resetStreak(UUID playerID){
+        LoginData data = getData(playerID);
+        if (data == null) return;
+        data.setDays(1);
+        data.setWeeks(0);
+        data.setAlreadyClaimed(false);
+        data.setLastClaim(LocalDate.now().minusDays(1));
     }
 }

@@ -6,6 +6,7 @@ import me.konodachi.simpleDailyRewards.SimpleDailyRewards;
 import me.konodachi.simpleDailyRewards.data.LoginData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,10 +57,9 @@ public class InventoryClickListener implements Listener {
         if (player == null) return;
 
         for (ItemStack reward : rewards) {
-            if (player.getInventory().firstEmpty() == -1){
-                player.getWorld().dropItemNaturally(player.getLocation(), reward);
-            }
-            player.getInventory().addItem(reward);
+            var leftovers = player.getInventory().addItem(reward);
+            if (leftovers.isEmpty()) return;
+            player.getWorld().dropItemNaturally(player.getLocation(), reward);
         }
 
         loginData.setDays(loginData.getDays() + 1);

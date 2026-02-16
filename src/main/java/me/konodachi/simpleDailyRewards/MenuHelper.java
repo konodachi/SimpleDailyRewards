@@ -42,7 +42,7 @@ public class MenuHelper {
 
         List<String> weeklyLore = List.of("Daily rewards are increased %" + weeklyMultiplier + " for every consecutive week",
                                     "Consecutive weeks: " + weeks);
-        ItemStack weeklyMultiplierIndicator = makeButton("Weekly Multiplier: " + ((float) 1 + (float) weeklyMultiplier / 100), Material.EMERALD, weeklyLore);
+        ItemStack weeklyMultiplierIndicator = makeButton("Weekly Multiplier: " + ((float) 1 + (float) weeklyMultiplier * weeks / 100), Material.EMERALD, weeklyLore);
         buttons.add(weeklyMultiplierIndicator);
 
         Inventory menu = Bukkit.createInventory(player, 9, "Daily Rewards");

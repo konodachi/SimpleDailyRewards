@@ -38,7 +38,7 @@ public class MenuHelper {
             else if (i == days) lore.add("This reward has already been claimed.");
             else lore.add("Reward not available yet.");
 
-            buttons.add(makeButton("Day " + (i + 1), Material.NETHER_STAR, lore));
+            buttons.add(makeButton("Day " + (i), Material.NETHER_STAR, lore));
         }
 
         List<String> weeklyLore = List.of("Daily rewards are increased %" + weeklyMultiplier + " for every consecutive week",

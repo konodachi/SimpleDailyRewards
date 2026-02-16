@@ -43,6 +43,7 @@ public class InventoryClickListener implements Listener {
         if (!buttonLore.getFirst().equalsIgnoreCase("Click to claim rewards for today")) return;
 
         giveRewards(player.getUniqueId(), buttonLabel);
+        MenuHelper.showMenu(DatabaseHelper.getData(player.getUniqueId()));
     }
 
     public void giveRewards(UUID uuid, String buttonLabel){

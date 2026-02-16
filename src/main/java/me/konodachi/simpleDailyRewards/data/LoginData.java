@@ -1,5 +1,6 @@
 package me.konodachi.simpleDailyRewards.data;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;

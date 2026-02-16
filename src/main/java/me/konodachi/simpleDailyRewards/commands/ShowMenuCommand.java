@@ -1,6 +1,8 @@
 package me.konodachi.simpleDailyRewards.commands;
 
+import me.konodachi.simpleDailyRewards.DatabaseHelper;
 import me.konodachi.simpleDailyRewards.MenuHelper;
+import me.konodachi.simpleDailyRewards.data.LoginData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +16,9 @@ public class ShowMenuCommand implements CommandExecutor {
 
         if (!(commandSender instanceof Player player)) return false;
 
-        MenuHelper.showMenu(player, 3, 2, false);
+        LoginData loginData = DatabaseHelper.getData(player.getUniqueId());
+
+        MenuHelper.showMenu(loginData);
 
         return true;
     }

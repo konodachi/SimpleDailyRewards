@@ -61,7 +61,6 @@ public class DatabaseHelper {
     }
 
     public static void updateLoginData(LoginData loginData){
-        if (!data.containsKey(loginData.getPlayerID())) return;
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_data (uuid, days, weeks, already_claimed, last_claim) " +
                     "VALUES (?, ?, ?, ?, ?) " +

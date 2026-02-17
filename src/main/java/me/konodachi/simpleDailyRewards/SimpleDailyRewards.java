@@ -5,7 +5,6 @@ import me.konodachi.simpleDailyRewards.commands.ShowMenuCommand;
 import me.konodachi.simpleDailyRewards.listeners.InventoryClickListener;
 import me.konodachi.simpleDailyRewards.listeners.PlayerJoinListener;
 import me.konodachi.simpleDailyRewards.listeners.PlayerQuitListener;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -22,7 +21,7 @@ public final class SimpleDailyRewards extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> DatabaseHelper.prepareDatabase(getDataFolder().getPath() + "/database.db"));
+        DatabaseHelper.prepareDatabase(getDataFolder().getPath() + "/database.db");
 
         loadConfig();
         loadLoot();

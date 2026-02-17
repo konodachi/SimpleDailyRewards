@@ -57,9 +57,14 @@ public class InventoryClickListener implements Listener {
         if (player == null) return;
 
         for (ItemStack reward : rewards) {
-            var leftovers = player.getInventory().addItem(reward);
+            int rewardAmount = reward.getAmount() + (int) (reward.getAmount() * loginData.getWeeks() * 0.05);
+            ItemStack rewardItem = reward.clone();
+            rewardItem.setAmount(rewardAmount);
+            var leftovers = player.getInventory().addItem(rewardItem);
             if (leftovers.isEmpty()) return;
-            player.getWorld().dropItemNaturally(player.getLocation(), reward);
+            for (ItemStack leftover : leftovers.values()){
+                player.getWorld().dropItemNaturally(player.getLocation(), leftover);
+            }
         }
 
         loginData.setDays(loginData.getDays() + 1);

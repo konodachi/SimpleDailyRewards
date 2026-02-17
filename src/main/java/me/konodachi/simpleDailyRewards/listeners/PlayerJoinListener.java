@@ -30,9 +30,8 @@ public class PlayerJoinListener implements Listener {
                 }
                 LoginData data = DatabaseHelper.getData(playerID);
                 if (data == null) return;
-                if (data.getLastClaim().isBefore(LocalDate.now().minusDays(1))) {
-                    DatabaseHelper.resetStreak(playerID);
-                }
+                if (data.getLastClaim().isBefore(LocalDate.now().minusDays(1))) DatabaseHelper.resetStreak(playerID);
+                if (data.getLastClaim().isEqual(LocalDate.now().minusDays(1))) data.setAlreadyClaimed(false);
                 if (!data.alreadyClaimed()) event.getPlayer().sendMessage("Don't forget to claim your daily reward with /daily");
             });
         });

@@ -13,17 +13,23 @@ import java.util.concurrent.ConcurrentMap;
 public class DatabaseHelper {
     private static ConcurrentMap<UUID, LoginData> data;
     private static String path;
-
+    private static Connection connection;
     private DatabaseHelper(){}
 
     public static void prepareDatabase(String path){
         DatabaseHelper.path = path;
 
+
         File file = new File(path);
         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
-            Statement statement = connection.createStatement()){
+        try{
+            connection = DriverManager.getConnection("jdbc::sqlite:" + path);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        try (Statement statement = connection.createStatement()){
 
             statement.execute("PRAGMA journal_mode=WAL;");
             statement.execute("PRAGMA busy_timeout=3000;");
@@ -42,8 +48,7 @@ public class DatabaseHelper {
     }
 
     public static void fetchLoginData(UUID playerID){
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM player_data WHERE uuid = ?")){
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM player_data WHERE uuid = ?")){
             statement.setString(1, playerID.toString());
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()){
@@ -65,8 +70,7 @@ public class DatabaseHelper {
     }
 
     public static void updateLoginData(LoginData loginData){
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + path);
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_data (uuid, days, weeks, already_claimed, last_claim) " +
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player_data (uuid, days, weeks, already_claimed, last_claim) " +
                     "VALUES (?, ?, ?, ?, ?) " +
                     "ON CONFLICT(uuid) DO UPDATE SET " +
                     "days = excluded.days, " +
